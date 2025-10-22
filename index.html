@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<title>Kenny U-Pull - Calculateur de pneus</title>
+<style>
+  body { font-family: Arial Black, Arial, sans-serif; background: #e9f7ef; color: #1a1a1a; margin: 0; }
+  .container { max-width: 430px; margin: 0 auto; padding: 12px; }
+  img.logo { display:block; margin:0 auto 18px auto; max-width:160px; width:100%; }
+  h1 { text-align: center; font-size: 2.3em; margin-top: 0; }
+  label { font-size: 1.4em; margin-top: 16px; display: block; }
+  select, button { font-size: 1.7em; width: 99%; padding: 14px; margin: 10px 0 20px 0; border-radius: 12px; border: 2px solid #b2bec3; }
+  .calc-btn { background: #d01010; color: white; font-weight: bold; }
+  .calc-btn:hover { background: #a30000; }
+  .result-list { display: flex; flex-direction: column; align-items: center; gap: 36px; margin-top: 32px; }
+  .reslt-green { color: #27ae60; font-size: 2.4em; font-weight: bold; }
+  .reslt-black { color: #222; font-size: 2.4em; font-weight: bold; }
+  .back-btn { display:block; width: 80%; max-width:350px; margin:32px auto 0 auto; background: #262626; color: #fff; font-size: 2em; padding: 20px 0; border-radius: 12px; border: none; text-align:center; }
+</style>
+</head>
+<body>
+  <div class="container" id="main">
+    <img class="logo" src="data:image/png;base64,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" alt="Logo Kenny U-Pull">
+    <h1>Calculateur de pneus</h1>
+    <div id="form-section">
+      <label for="width">Largeur (mm)</label>
+      <select id="width">
+        <option>175</option><option>185</option><option>195</option><option>205</option>
+        <option>215</option><option>225</option><option>235</option><option>245</option>
+        <option>255</option><option>265</option><option>275</option><option>285</option>
+        <option>295</option>
+      </select>
+      <label for="height">Hauteur (%)</label>
+      <select id="height">
+        <option>40</option><option>45</option><option>50</option><option>55</option>
+        <option>60</option><option>65</option><option>70</option><option>75</option>
+        <option>80</option><option>85</option>
+      </select>
+      <label for="rim">Diamètre jante (po)</label>
+      <select id="rim">
+        <option>13</option><option>14</option><option>15</option><option>16</option>
+        <option>17</option><option>18</option><option>19</option><option>20</option>
+        <option>21</option><option>22</option>
+      </select>
+      <button class="calc-btn" onclick="calculate()">Calculer</button>
+    </div>
+    <div id="result-section" style="display:none;">
+      <div class="result-list" id="result"></div>
+      <button class="back-btn" onclick="goBack()">← Retour</button>
+    </div>
+  </div>
+<script>
+function calculate() {
+  let width = parseInt(document.getElementById('width').value);
+  let height = parseInt(document.getElementById('height').value);
+  let rim = document.getElementById('rim').value;
+
+  let widerWidth = width + 10;
+  let lowerProfile = height - 5;
+  let narrowerWidth = width - 10;
+  let higherProfile = height + 5;
+
+  document.getElementById('result').innerHTML = `
+    <div class="reslt-black">${widerWidth}/${lowerProfile}/${rim}</div>
+    <div class="reslt-green">${width}/${height}/${rim}</div>
+    <div class="reslt-black">${narrowerWidth}/${higherProfile}/${rim}</div>
+  `;
+  document.getElementById('form-section').style.display = "none";
+  document.getElementById('result-section').style.display = "block";
+}
+
+function goBack() {
+  document.getElementById('form-section').style.display = "block";
+  document.getElementById('result-section').style.display = "none";
+}
+</script>
+</body>
+</html>
